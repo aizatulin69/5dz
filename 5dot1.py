@@ -1,11 +1,9 @@
 from collections import OrderedDict
 
-# Глобальний словник для зберігання чисел Фібоначчі
-fibonacci_numbs = {1: 0, 2: 1}
-
 # Функція для обчислення та кешування чисел Фібоначчі 
-def caching_fibonacci(number):
-    global fibonacci_numbs  # Працюємо з глобальним словником
+def caching_fibonacci():
+    # Глобальний словник для зберігання чисел Фібоначчі
+    fibonacci_numbs = {1: 0, 2: 1}
 
     def fibonacci(n):
         fibonacci_num_1 = 0
@@ -21,7 +19,7 @@ def caching_fibonacci(number):
         
         else:
             # Обчислюємо числа Фібоначчі до потрібного індексу
-            for _ in range(n - 2):
+            for _ in range(n - 1):
                 fibonacci_num_2 = fibonacci_num_2 + fibonacci_num_1
                 fibonacci_num_1 = fibonacci_num_2 - fibonacci_num_1
                 fibonacci_numbs.update({(_ + 3): fibonacci_num_2})  # додаємо нове число в словник
@@ -30,15 +28,16 @@ def caching_fibonacci(number):
             fibonacci_num = fibonacci_num_2
             print(f"{n} fibanacci number is: {fibonacci_num}")
 
-    fibonacci(number)
+    # Головний цикл взаємодії з користувачем
+    while True:
+        number = input('Enter int number >>> ')
+        if number.isdigit():
+            fibonacci(int(number))  # виклик функції для числа
+        elif number == "show all":
+            print(fibonacci_numbs)  # показ усіх збережених чисел
+        elif number == 'end':
+            break 
+
     return fibonacci_numbs  # Повертаємо оновлений словник
 
-# Головний цикл взаємодії з користувачем
-while True:
-    input_num = input('Enter int number >>> ')
-    if input_num.isdigit():
-        caching_fibonacci(int(input_num))  # виклик функції для числа
-    elif input_num == "show all":
-        print(fibonacci_numbs)  # показ усіх збережених чисел
-    elif input_num == 'end':
-        break  
+caching_fibonacci()
