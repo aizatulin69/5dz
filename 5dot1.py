@@ -28,16 +28,10 @@ def caching_fibonacci():
             fibonacci_num = fibonacci_num_2
             print(f"{n} fibanacci number is: {fibonacci_num}")
 
-    # Головний цикл взаємодії з користувачем
-    while True:
-        number = input('Enter int number >>> ')
-        if number.isdigit():
-            fibonacci(int(number))  # виклик функції для числа
-        elif number == "show all":
-            print(fibonacci_numbs)  # показ усіх збережених чисел
-        elif number == 'end':
-            break 
+        return fibonacci_numbs  # Повертаємо оновлений словник
 
-    return fibonacci_numbs  # Повертаємо оновлений словник
+    return fibonacci
 
 caching_fibonacci()
+caching_fibonacci()
+
