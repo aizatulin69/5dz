@@ -4,11 +4,11 @@ def input_error(func):
         try:
             return func(*args, **kwargs)
         except IndexError:
-            return print("Give me name and phone please")
+            return "Give me name and phone please"
         except ValueError:
-            return print("Give me valid data")
+            return "Give me valid data"
         except KeyError:
-            return print("No such contact")
+            return "No such contact"
     return wrapper
 
 
@@ -27,11 +27,7 @@ def hello():
 
 @input_error
 def add_contact(args, contacts):
-    if len(args) < 2:
-        return "Please enter name and phone number."
     name, contact = args[0], args[1]
-    if not contact.isdigit():
-        return "Invalid phone number."
     if name in contacts:
         return "Contact already exists."
     contacts[name] = contact
@@ -40,8 +36,6 @@ def add_contact(args, contacts):
 
 @input_error
 def change_contact(args, contacts):
-    if len(args) < 2:
-        return "Please enter name and new phone number."
     name, new_contact = args[0], args[1]
     if name in contacts:
         contacts[name] = new_contact
@@ -51,8 +45,6 @@ def change_contact(args, contacts):
 
 @input_error
 def show_phone(args, contacts):
-    if len(args) < 1:
-        return "Please enter name."
     name = args[0]
     return contacts.get(name, "Contact not found.")
 
@@ -99,4 +91,5 @@ if __name__ == "__main__":
             
 
         
+
 
