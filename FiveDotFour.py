@@ -20,14 +20,15 @@ def parse_command(command):
     return action, args
 
 
-@input_error
 def hello():
-    return 'Hello, how can I help you?'
+    return "Hello, how can I help you?"
 
 
 @input_error
 def add_contact(args, contacts):
-    name, contact = args[0], args[1]
+    if len(args) < 2:
+        raise IndexError
+    name, contact = args
     if name in contacts:
         return "Contact already exists."
     contacts[name] = contact
@@ -36,7 +37,9 @@ def add_contact(args, contacts):
 
 @input_error
 def change_contact(args, contacts):
-    name, new_contact = args[0], args[1]
+    if len(args) < 2:
+        raise IndexError
+    name, new_contact = args
     if name in contacts:
         contacts[name] = new_contact
         return "Contact changed."
@@ -45,23 +48,22 @@ def change_contact(args, contacts):
 
 @input_error
 def show_phone(args, contacts):
+    if not args:
+        raise IndexError
     name = args[0]
     return contacts.get(name, "Contact not found.")
 
 
-@input_error
 def show_all(contacts):
     if not contacts:
         return "No contacts available."
-    return '\n'.join(f"{name}: {number}" for name, number in sorted(contacts.items()))
+    return "\n".join(f"{name}: {number}" for name, number in sorted(contacts.items()))
 
 
-@input_error
 def close():
     return "Good bye!"
 
 
-@input_error
 def main():
     contacts = {}
 
@@ -69,17 +71,17 @@ def main():
         command = input(">>> ")
         action, args = parse_command(command)
 
-        if action in ('hello', 'hi'):
+        if action in ("hello", "hi"):
             print(hello())
-        elif action == 'add':
+        elif action == "add":
             print(add_contact(args, contacts))
-        elif action == 'change':
+        elif action == "change":
             print(change_contact(args, contacts))
-        elif action == 'phone':
+        elif action == "phone":
             print(show_phone(args, contacts))
-        elif action == 'all':
+        elif action == "all":
             print(show_all(contacts))
-        elif action in ('close', 'exit', 'bye'):
+        elif action in ("close", "exit", "bye"):
             print(close())
             break
         else:
@@ -91,5 +93,6 @@ if __name__ == "__main__":
             
 
         
+
 
 
