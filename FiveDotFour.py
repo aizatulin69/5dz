@@ -1,4 +1,3 @@
-
 def input_error(func):
     def wrapper(*args, **kwargs):
         try:
@@ -14,20 +13,20 @@ def input_error(func):
 
 @input_error
 def parse_command(command):
+    if not command.strip():
+        raise ValueError("Empty input")
     parts = command.strip().split()
     action = parts[0].lower()
     args = parts[1:]
     return action, args
 
 
-def hello():
-    return "Hello, how can I help you?"
+def hallo():
+    return "Hallo, how can I help you?"
 
 
 @input_error
 def add_contact(args, contacts):
-    if len(args) < 2:
-        raise IndexError
     name, contact = args
     if name in contacts:
         return "Contact already exists."
@@ -37,42 +36,47 @@ def add_contact(args, contacts):
 
 @input_error
 def change_contact(args, contacts):
-    if len(args) < 2:
-        raise IndexError
     name, new_contact = args
-    if name in contacts:
-        contacts[name] = new_contact
-        return "Contact changed."
-    return "Contact not found."
+    contacts[name]
+    contacts[name] = new_contact
+    return "Contact changed."
 
 
 @input_error
 def show_phone(args, contacts):
-    if not args:
-        raise IndexError
     name = args[0]
-    return contacts.get(name, "Contact not found.")
+    return contacts[name]
 
 
 def show_all(contacts):
     if not contacts:
         return "No contacts available."
-    return "\n".join(f"{name}: {number}" for name, number in sorted(contacts.items()))
+    return "\n".join(
+        f"{name}: {number}" for name, number in sorted(contacts.items())
+        )
 
 
 def close():
     return "Good bye!"
 
 
+@input_error
 def main():
     contacts = {}
 
     while True:
         command = input(">>> ")
-        action, args = parse_command(command)
 
-        if action in ("hello", "hi"):
-            print(hello())
+        result = parse_command(command)
+
+        if not isinstance(result, tuple):
+            print(result)
+            continue
+
+        action, args = result
+
+        if action in ("hallo", "hi"):
+            print(hallo())
         elif action == "add":
             print(add_contact(args, contacts))
         elif action == "change":
@@ -93,6 +97,7 @@ if __name__ == "__main__":
             
 
         
+
 
 
 
